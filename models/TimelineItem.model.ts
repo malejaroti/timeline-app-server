@@ -80,6 +80,6 @@ const timelineItemSchema = new Schema<ITimelineItem>(
   { timestamps: true } // adds createdAt / updatedAt fields
 );
 
-const Timeline = model<ITimelineItem>("Timeline", timelineItemSchema);
+const TimelineItem = model<ITimelineItem>("TimelineItem", timelineItemSchema);
 
-export default Timeline;
+export default TimelineItem;
