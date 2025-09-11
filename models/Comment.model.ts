@@ -25,7 +25,7 @@ const commentSchema = new Schema<IComment>(
   }
 );
 
-const User = model<IComment>("Comment", commentSchema);
+const Comment = model<IComment>("Comment", commentSchema);
 
 // module.exports = Comment;
 export default Comment;
