@@ -1,21 +1,18 @@
-const express = require("express");
+import express, {type Application} from "express";
+import cors from "cors"; // Enables secure cross-origin requests
+import morgan from "morgan"; // Logs incoming requests and responses to the terminal (useful for debugging)
 
-// ℹ️ Logs incoming requests and responses to the terminal (useful for debugging)
-const logger = require("morgan");
-
-// ℹ️ Allows the server to accept requests from different origins (e.g., frontend apps)
-// CORS (Cross-Origin Resource Sharing) enables secure cross-origin requests.
-const cors = require("cors");
+const logger = morgan;
 
 // Middleware configuration
-function config(app) {
+export default function config(app : Application) {
   // ℹ️ Enables Express to trust reverse proxies (e.g., when deployed behind services like Heroku or Vercel)
   app.set("trust proxy", 1);
   
   // ℹ️ Configures CORS to allow requests only from the specified origin
   app.use(
     cors({
-      origin: [process.env.ORIGIN]
+      origin: process.env.ORIGIN ? [process.env.ORIGIN] : []
     })
   );
   
@@ -29,4 +26,4 @@ function config(app) {
   app.use(express.urlencoded({ extended: false }));
 };
 
-module.exports = config
+// module.exports = config

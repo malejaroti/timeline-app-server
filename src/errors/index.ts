@@ -1,14 +1,16 @@
 // ℹ️ Middleware to handle 404 and generic errors in the application
 
-function handleErrors(app) {
+import { Request, Response, NextFunction, Application } from 'express';
+
+export default function handleErrors(app : Application) {
   
   // ℹ️ Handles requests to undefined routes (404 Not Found)
-  app.use((req, res, next) => {
+  app.use((req: Request, res: Response, next: NextFunction) => {
     res.status(404).json({ message: "This route does not exist" });
   });
 
   // ℹ️ Centralized generic error handling middleware. whenever you call next(error), this middleware will handle the error
-  app.use((err, req, res, next) => {
+  app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
     // always logs the error
     console.error("ERROR", req.method, req.path, err);
@@ -24,4 +26,4 @@ function handleErrors(app) {
   });
 };
 
-module.exports = handleErrors
+// module.exports = handleErrors

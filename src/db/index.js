@@ -1,5 +1,5 @@
 // ℹ️ Mongoose (ODM) handles the connection to MongoDB and provides schema-based modeling.
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 // ℹ️ Connects to MongoDB using the URI from environment variables.
 mongoose
