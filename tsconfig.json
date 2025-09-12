@@ -1,0 +1,10 @@
+{
+  "extends": "@tsconfig/node22/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist", //tells TypeScript to output the compiled JavaScript files that it generates from our TypeScript code in the dist directory
+    "rootDir": "./",
+    "typeRoots": ["./src/types", "./node_modules/@types"]
+  },
+  "include": ["./src/**/*.ts"], // only the files in the src directory and its subdirectories will be compiled by TypeScript.
+  "exclude": ["dist"]
+}
