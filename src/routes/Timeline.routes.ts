@@ -2,10 +2,13 @@ import { Request, Response, NextFunction, Router } from 'express';
 import mongoose from "mongoose";
 import Timeline from "../models/Timeline.model"
 import TimelineItem from '../models/TimelineItem.model';
+import timelineItemRouter from "../routes/TimelineItem.routes"
+
 import { JwtPayload } from '../types/auth';
 import getUserIdFromPayload from '../utils/getUserIdFromPayload';
 
 const router = Router()
+
 
 //POST /api/timelines - Create a new timeline
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
@@ -188,6 +191,7 @@ router.put("/:timelineId", async (req: Request, res: Response, next: NextFunctio
     next(error);
   }
 });
+router.use("/:timelineId", timelineItemRouter);
 
 // module.exports = router
 const timelineRouter = router

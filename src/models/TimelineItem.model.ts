@@ -6,15 +6,15 @@ export interface ITimelineItem extends Document {
   kind: String;
   title: String;
   description?: String;
-  startDate?: Date;
+  startDate: Date;
   endDate?: Date;
   images?: [String]
   impact?: String;
   tags?: [String];
   isApproved?: Boolean,
   comments?: [Schema.Types.ObjectId],  
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date; // added automatically
+  updatedAt: Date; // added automatically
 }
 
 const timelineItemSchema = new Schema<ITimelineItem>(
@@ -46,11 +46,11 @@ const timelineItemSchema = new Schema<ITimelineItem>(
     },
     startDate: {
       type: Date,
-      required: false, // can be calculated from "moments"
+      required: true, 
     },
     endDate: {
       type: Date,
-      required: false, // can be calculated from "moments"
+      required: false, 
     },
     images: {
       type:[String],
@@ -74,6 +74,10 @@ const timelineItemSchema = new Schema<ITimelineItem>(
     comments: {
       type:[Schema.Types.ObjectId],
       ref: "Comment",
+      required: false
+    },
+    isApproved :{
+      type: Boolean,
       required: false
     }
   },
