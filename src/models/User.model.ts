@@ -2,10 +2,10 @@
 import { Schema, model, Document } from "mongoose";
 
 export interface IUser extends Document {
-  email: String;
-  password: String;
-  username: String;
-  name: String;
+  email: string;
+  password: string;
+  username: string;
+  name: string;
   friends?:[Schema.Types.ObjectId]
 }
 
@@ -24,14 +24,10 @@ const userSchema = new Schema<IUser>(
     },
     username: {
       type: String,
-      required: false
+      required: true //Used for friend search without email
     },
     name: {
       type: String,
-      required: false
-    },
-    friends:{
-      type: [Schema.Types.ObjectId],
       required: false
     }
   },

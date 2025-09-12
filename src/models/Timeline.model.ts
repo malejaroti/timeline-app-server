@@ -29,7 +29,7 @@ const timelineSchema = new Schema<ITimeline>(
     },
     icon:{
       type: String,
-      required: [true, "Title is required"],
+      required: false
     },
     description: {
       type: String,
@@ -55,6 +55,7 @@ const timelineSchema = new Schema<ITimeline>(
     color: {
       type: String,
       required: false,
+      default: "grey"
     }
   },
   { timestamps: true } // adds createdAt / updatedAt fields
