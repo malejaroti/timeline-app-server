@@ -37,7 +37,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   const {title, icon, description, isPublic, color } = req.body;
   try {
     const response = await Timeline.find({owner});
-    res.status(201).json(response);
+    res.status(200).json(response);
   } catch (error) {
     console.log(error);
     next(error);

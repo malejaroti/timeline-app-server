@@ -42,6 +42,36 @@ router.post("/items", async (req: Request, res: Response, next: NextFunction) =>
   }
 });
 
+//GET /api/timelines/:timelineId/items - Get all of the itms of one timeline item
+router.get("/items", async (req: Request, res: Response, next: NextFunction) => {
+  if (!req.payload) return res.status(401).json({ errorMessage: "no payload" });
+  const { _id: loggedUserId } = req.payload as JwtPayload;
+  
+  console.log("req.params", req.params);
+  const { timelineId, itemId } = req.params;
+  
+  try {
+    const foundTimeline = await Timeline.findById(timelineId);
+    if (!foundTimeline) return res.status(404).json({ message: "Timeline not found" });
+   
+    // Check if timeline is public OR user is owner/collaborator/creator
+    const isPublic = false; //foundTimeline.isPublic;
+    const isTimelineOwner = foundTimeline.owner.toString() === loggedUserId;
+    const isCollaborator = Array.isArray(foundTimeline.collaborators) && foundTimeline.collaborators.some((collab) => collab.toString() === loggedUserId.toString());
+    
+    if (isTimelineOwner || isCollaborator) {
+      const response = await TimelineItem.find({timeline : timelineId});
+      res.status(200).json(response);
+    } else {
+      return res.status(403).json({ errorMessage: "Access denied.User is neither timeline owner, nor creator of the item, nor timeline collaborator" });
+    }
+    
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 //GET /api/timelines/:timelineId/items/:itemId - Get details of one timeline item
 router.get("/items/:itemId", async (req: Request, res: Response, next: NextFunction) => {
   if (!req.payload) return res.status(401).json({ errorMessage: "no payload" });

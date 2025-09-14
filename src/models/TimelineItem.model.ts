@@ -8,7 +8,7 @@ export interface ITimelineItem extends Document {
   description?: String;
   startDate: Date;
   endDate?: Date;
-  images?: [String]
+  images?: [string]
   impact?: String;
   tags?: [String];
   isApproved?: Boolean,
