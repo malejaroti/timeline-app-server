@@ -2,6 +2,8 @@ import { Request, Response, NextFunction, Router } from 'express';
 import validateToken from '../middlewares/auth.middleware';
 import authRouter from "../routes/auth.routes"
 import timelineRouter from "../routes/Timeline.routes"
+import uploadRouter from "../routes/upload.routes"
+// const uploadRoutes = require("./upload.routes");
 
 const router = Router();
 
@@ -12,6 +14,7 @@ router.get("/", (req: Request, res: Response, next: NextFunction) => {
 
 router.use("/auth", authRouter)
 router.use("/timelines", validateToken, timelineRouter);
+router.use("/upload", validateToken, uploadRouter);
 
 // module.exports = indexRouter;
 export default router

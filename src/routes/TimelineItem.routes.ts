@@ -105,8 +105,6 @@ router.get("/items/:itemId", async (req: Request, res: Response, next: NextFunct
   }
 });
 
-
-
 // PUT /api/timelines/:timelineId/items/:itemId - Edit a timeline item 
 router.put("/items/:itemId", async (req: Request, res: Response, next: NextFunction) => {
   if (!req.payload) return res.status(401).json({ errorMessage: "no payload" });
