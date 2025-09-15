@@ -18,12 +18,12 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-// Debug: Check if environment variables are loaded
-console.log("Cloudinary config:", {
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_KEY ? "***" + process.env.CLOUDINARY_KEY.slice(-4) : "undefined",
-  api_secret: process.env.CLOUDINARY_SECRET ? "***" + process.env.CLOUDINARY_SECRET.slice(-4) : "undefined"
-});
+// <// Debug: Check if environment variables are loaded
+// console.log("Cloudinary config:", {
+//   cloud_name: process.env.CLOUDINARY_NAME,
+//   api_key: process.env.CLOUDINARY_KEY ? "***" + process.env.CLOUDINARY_KEY.slice(-4) : "undefined",
+//   api_secret: process.env.CLOUDINARY_SECRET ? "***" + process.env.CLOUDINARY_SECRET.slice(-4) : "undefined"
+// });>
 
 interface CloudinaryParams {
   folder: string;
