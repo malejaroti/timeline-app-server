@@ -35,7 +35,7 @@ interface CloudinaryParams {
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    allowed_formats: ["jpg", "png"],
+    allowed_formats: ["jpg", "png", "webp"],
     // format: async (req, file) => file.mimetype === "image/png" ? "png" : "jpg",
 
     folder: "timeline-app", // The name of the folder where images will be stored in cloudinary
