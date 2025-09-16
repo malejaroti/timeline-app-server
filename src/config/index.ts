@@ -12,6 +12,7 @@ export default function config(app : Application) {
   // ℹ️ Configures CORS to allow requests only from the specified origin
   app.use(
     cors({
+      // origin: [process.env.ORIGIN]
       origin: process.env.ORIGIN ? [process.env.ORIGIN] : []
     })
   );

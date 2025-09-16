@@ -1,9 +1,3 @@
-import express from 'express';
-import handleErrors from "./errors";
-import config from './config';
-import router from './routes/index.routes';
-
-
 // Load environment variables from a .env file into process.env. 
 try {
   process.loadEnvFile() // Node.js built-in API (introduced in Node v20.6.0) to load variables from a .env file directly into process.env. For older Node versions, the package dotenv was used for this.
@@ -11,8 +5,15 @@ try {
   console.warn(".env file not found, using default environment values")
 }
 
+import express from 'express';
+import handleErrors from "./errors";
+import config from './config';
+import router from './routes/index.routes';
+import connectDb from './db'
+
+
 // Establish a connection to the database
-require("./db");
+connectDb()
 
 // Initialize the server
 const app = express();
