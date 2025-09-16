@@ -28,8 +28,8 @@ router.post("/items", async (req: Request, res: Response, next: NextFunction) =>
   console.log(req.body);
   const {title, kind, description, startDate, endDate, images, impact, tags} = req.body;
 
-  // If no endDate is provided, use startDate (treat as a 1-day event)
-  const finalEndDate = endDate?? startDate;
+  // If no endDate is provided, use today's date (present)
+  const finalEndDate = endDate ?? new Date();
 
   try {
     const response = await TimelineItem.create({

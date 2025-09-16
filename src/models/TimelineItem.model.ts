@@ -3,7 +3,7 @@ import { Schema, model, Document } from "mongoose";
 export interface ITimelineItem extends Document {
   timeline: Schema.Types.ObjectId;
   creator: Schema.Types.ObjectId;
-  kind: String;
+  // kind?: String;
   title: String;
   description?: String;
   startDate: Date;
@@ -29,12 +29,12 @@ const timelineItemSchema = new Schema<ITimelineItem>(
         ref: "Timeline",
         required: true
     },
-    kind: { 
-        type: String, 
-        enum: ["event","person","book","movie","series","course"], 
-        required: true,
-        default: "event"
-    },
+    // kind: { 
+    //     type: String, 
+    //     enum: ["event","person","book","movie","series","course"], 
+    //     required: false,
+    //     default: "event"
+    // },
     title: {
       type: String,
       required: [true, "Title is required"],
