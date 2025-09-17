@@ -84,6 +84,20 @@ const timelineItemSchema = new Schema<ITimelineItem>(
   { timestamps: true } // adds createdAt / updatedAt fields
 );
 
+
+// Compound index on (timelineId, startDate, _id)
+// - Purpose: Optimizes queries that fetch all items in a given timeline,
+//   sorted chronologically (oldest → newest).
+// - timelineId: narrows results to a single timeline efficiently.
+// - startDate: ensures MongoDB can return documents already ordered by date,
+//   instead of doing an expensive in-memory sort.
+// - _id: used as a tiebreaker when multiple items share the same startDate,
+//   and also enables efficient, stable pagination with a "cursor" approach.
+// Without this index, queries like `.find({ timelineId }).sort({ startDate: 1, _id: 1 })`
+// would get slower as the collection grows, because MongoDB would have to scan
+// and sort results every time instead of just reading them in order.
+timelineItemSchema.index({ timelineId: 1, startDate: 1, _id: 1 });
+
 const TimelineItem = model<ITimelineItem>("TimelineItem", timelineItemSchema);
 
 export default TimelineItem;
