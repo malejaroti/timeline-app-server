@@ -33,7 +33,7 @@ router.post("/items", async (req: Request, res: Response, next: NextFunction) =>
 
   try {
     const response = await TimelineItem.create({
-        timeline, creator, title, kind, description, startDate, finalEndDate, images, impact, tags, isApproved
+        timeline, creator, title, kind, description, startDate, endDate, images, impact, tags, isApproved
     });
     res.status(201).json(response);
   } catch (error) {
@@ -60,7 +60,8 @@ router.get("/items", async (req: Request, res: Response, next: NextFunction) => 
     const isCollaborator = Array.isArray(foundTimeline.collaborators) && foundTimeline.collaborators.some((collab) => collab.toString() === loggedUserId.toString());
     
     if (isTimelineOwner || isCollaborator) {
-      const response = await TimelineItem.find({timeline : timelineId});
+      const response = await TimelineItem.find({timeline : timelineId})
+        .sort({ startDate: 1, endDate: 1, _id: 1 }); // Return items in ascending chronological order. _id breaks ties deterministically
       res.status(200).json(response);
     } else {
       return res.status(403).json({ errorMessage: "Access denied.User is neither timeline owner, nor creator of the item, nor timeline collaborator" });
