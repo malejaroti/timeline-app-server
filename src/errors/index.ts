@@ -13,7 +13,8 @@ export default function handleErrors(app : Application) {
   app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
     // always logs the error
-    console.error("ERROR", req.method, req.path, err);
+    console.error("ERROR", req.method, req.path, "\nFULL ERROR:\n", err);
+    // console.error("ERROR", req.method, req.path, "\nERR MSG:", err.errorResponse?.errmsg, "\n\nFULL ERROR:\n", err);
 
     // Sends a generic server error response if headers haven't been sent
     if (!res.headersSent) {
