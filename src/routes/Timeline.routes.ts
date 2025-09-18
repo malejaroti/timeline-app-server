@@ -14,16 +14,28 @@ const router = Router()
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   if (!req.payload) return res.status(401).json({ errorMessage: "no payload" });
   const { _id: owner } = req.payload as JwtPayload;
-
-  console.log(req.body);
+  console.log("Request body (new timeline data):",req.body);
   const {title, icon, description, isPublic, color } = req.body;
+
+  if(!title){
+    res.status(400).json({errorMessage: "Timeline name is mandatory"})
+    return; 
+  }
+  
   try {
+    // Timeline title should be unique
+    const foundTimelineWithNewName = await Timeline.findOne({title, owner})
+    if(foundTimelineWithNewName){
+      res.status(400).json({errorMessage: "Timeline cannot be created because there is already a timeline with that name"})
+      return;
+    }
+
     const response = await Timeline.create({
         owner, title, icon, description, isPublic, color
     });
     res.status(201).json(response);
-  } catch (error) {
-    console.log(error);
+
+  } catch (error: any) {
     next(error);
   }
 });
