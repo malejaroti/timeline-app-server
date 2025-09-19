@@ -6,6 +6,7 @@ export interface IUser extends Document {
   password: string;
   username: string;
   name: string;
+  profilePicture: string;
   friends?:[Schema.Types.ObjectId]
 }
 
@@ -29,6 +30,10 @@ const userSchema = new Schema<IUser>(
     name: {
       type: String,
       required: false
+    },
+    profilePicture: {
+      type: String,
+      required: true
     }
   },
   {
