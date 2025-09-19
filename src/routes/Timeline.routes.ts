@@ -15,7 +15,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   if (!req.payload) return res.status(401).json({ errorMessage: "no payload" });
   const { _id: owner } = req.payload as JwtPayload;
   console.log("Request body (new timeline data):",req.body);
-  const {title, icon, description, isPublic, color } = req.body;
+  const {title, icon, description, isPublic, color, collaborators } = req.body;
 
   if(!title){
     res.status(400).json({errorMessage: "Timeline name is mandatory"})
@@ -31,7 +31,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
     }
 
     const response = await Timeline.create({
-        owner, title, icon, description, isPublic, color
+        owner, title, icon, description, isPublic, color, collaborators
     });
     res.status(201).json(response);
 
@@ -48,7 +48,12 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   console.log(req.body);
   const {title, icon, description, isPublic, color } = req.body;
   try {
-    const response = await Timeline.find({owner});
+    const response = await Timeline
+      .find({owner})
+      .populate([
+        {path: "owner", select:"name username profilePicture"},
+        {path: "collaborators", select:"name username profilePicture"}
+      ]);
     res.status(200).json(response);
   } catch (error) {
     console.log(error);
@@ -62,9 +67,12 @@ router.get("/collaborations", async (req: Request, res: Response, next: NextFunc
   try {
     if (!req.payload) return res.status(401).json({ errorMessage: "no payload" });
     const { _id: userId } = req.payload as JwtPayload;
-    const response = await Timeline.find(
+    const response = await Timeline
+    .find(
       {collaborators: userId }
-    ).select("title");
+    ).populate([
+        {path: "owner", select:"name username profilePicture"},
+      ]);
     res.status(200).json(response);
   } catch (error) {
     console.log(error);
