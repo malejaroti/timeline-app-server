@@ -28,6 +28,11 @@ router.post("/items", async (req: Request, res: Response, next: NextFunction) =>
   console.log(req.body);
   const {title, kind, description, startDate, endDate, images, impact, tags} = req.body;
 
+  if(!title){
+    res.status(400).json({errorMessage: "Timeline item name is required"})
+    return
+  }
+
   // If no endDate is provided, use today's date (present)
   const finalEndDate = endDate ?? new Date();
 

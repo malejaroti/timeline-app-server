@@ -28,7 +28,7 @@ router.post("/signup", async (req: Request, res: Response, next: NextFunction) =
   // Email validations
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   if (!emailRegex.test(email)) {
-    res.status(400).json({ message: "Provide a valid email address." });
+    res.status(400).json({ errorMessage: "Provide a valid email address." });
     return;
   }
 
@@ -36,12 +36,12 @@ router.post("/signup", async (req: Request, res: Response, next: NextFunction) =
     // Check if there isn't another user with that same email
     const foundUser = await User.findOne({ email: email });
     if (foundUser !== null) {
-      res.status(400).json({ errorMessage: "user already registered with that email" });
+      res.status(409).json({ errorMessage: "An account with this email already exists" });
       return;
     }
 
-    // hash the password
-    const hashPassword = await bcrypt.hash(password, 12);
+    // hash the password 
+    const hashPassword = await bcrypt.hash(password, 12); 
 
     await User.create({
       username,
